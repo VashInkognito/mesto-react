@@ -1,12 +1,45 @@
 import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card({ card, name, link, likes, onCardClick }) {
+function Card({
+  card,
+  name,
+  link,
+  likes,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) {
+  // Подписываем компонент на контекст
+  const currentUser = React.useContext(CurrentUserContext);
+  // Определяем, являемся ли мы владельцем текущей карточки
+  const isOwn = card.owner._id === currentUser._id;
+  // Создаём переменную, которую после зададим в `className` для кнопки удаления
+  const cardDeleteButtonClassName = `element__button-trash button ${
+    !isOwn && 'element__button-trash_hidden'
+  }`;
+  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  // Создаём переменную, которую после зададим в `className` для кнопки лайка
+  const cardLikeButtonClassName = `element__button-like button ${
+    isLiked && 'element__button-like_active'
+  }`;
   function handleCardClick() {
     onCardClick(card);
   }
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+  function handleDeleteCardClick() {
+    onCardDelete(card);
+  }
   return (
-    <li className="element" id={card._id}>
-      <button className="element__button-trash button"></button>
+    <li className="element">
+      <button
+        className={cardDeleteButtonClassName}
+        type="button"
+        onClick={handleDeleteCardClick}
+      ></button>
       <img
         className="element__image"
         src={link}
@@ -17,8 +50,9 @@ function Card({ card, name, link, likes, onCardClick }) {
         <h2 className="element__title">{name}</h2>
         <div className="element__button-like-block">
           <button
-            className="element__button-like button"
+            className={cardLikeButtonClassName}
             type="button"
+            onClick={handleLikeClick}
           ></button>
           <span className="element__like-counter">{likes}</span>
         </div>

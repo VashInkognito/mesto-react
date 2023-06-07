@@ -1,6 +1,22 @@
 import React from 'react';
 
-function ImagePopup({ card, isOpen, onClose }) {
+function ImagePopup({ card, isOpen, onClose, onCloseEsc, onCloseOverlay }) {
+  // слушатель закрытия попапов через esc
+  React.useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', onCloseEsc);
+    } else {
+      document.removeEventListener('keydown', onCloseEsc);
+    }
+  }, [isOpen]);
+  // слушатель закрытия попапов через overlay
+  React.useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('mousedown', onCloseOverlay);
+    } else {
+      document.removeEventListener('mousedown', onCloseOverlay);
+    }
+  }, [isOpen]);
   return (
     <div className={`popup popup_type_picture ${isOpen ? 'popup_opened' : ''}`}>
       <figure className="popup__figure-container">

@@ -1,17 +1,17 @@
 import React from 'react';
 
-function PopupWithForm({
+function DeleteCardPopup({
   name,
   title,
   buttonText,
   buttonTextLoading,
+  card,
   isOpen,
   onClose,
   onCloseEsc,
   onCloseOverlay,
-  onSubmit,
+  onCardDelete,
   isLoading,
-  children,
 }) {
   // слушатель закрытия попапов через esc
   React.useEffect(() => {
@@ -29,22 +29,31 @@ function PopupWithForm({
       document.removeEventListener('mousedown', onCloseOverlay);
     }
   }, [isOpen]);
+  // Функция-отработчик сохранения стейта
+  function handleDeleteClick(e) {
+    e.preventDefault();
+    // Передаём значения управляемых компонентов во внешний обработчик
+    onCardDelete(card);
+    onClose();
+  }
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
       <div className="popup__container">
         <button
-          className="popup__button-close button"
           type="button"
+          className="popup__button-close button"
           onClick={onClose}
-        />
+        ></button>
         <h2 className="popup__title">{title}</h2>
         <form
-          className={`popup__form popup__form_type_${name}`}
           name={`form-${name}`}
-          onSubmit={onSubmit}
+          className={`popup__form popup__form_type_${name}`}
         >
-          {children}
-          <button className="popup__button-submit" type="submit">
+          <button
+            type="submit"
+            className="popup__button-submit"
+            onClick={handleDeleteClick}
+          >
             {isLoading ? buttonTextLoading : buttonText}
           </button>
         </form>
@@ -53,4 +62,4 @@ function PopupWithForm({
   );
 }
 
-export default PopupWithForm;
+export default DeleteCardPopup;

@@ -31,14 +31,11 @@ class Api {
   }
   //----------------------------------------------------------------------//
   // Создание новой карточки
-  addNewCard(newCard) {
+  addNewCard(body) {
     return this._request('cards', {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({
-        name: newCard.title,
-        link: newCard.link,
-      }),
+      body: JSON.stringify(body),
     });
   }
   // Удаление карточки
