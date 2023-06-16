@@ -17,17 +17,15 @@ function DeleteCardPopup({
   React.useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', onCloseEsc);
-    } else {
-      document.removeEventListener('keydown', onCloseEsc);
     }
+    return () => document.removeEventListener('keydown', onCloseEsc);
   }, [isOpen]);
   // слушатель закрытия попапов через overlay
   React.useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousedown', onCloseOverlay);
-    } else {
-      document.removeEventListener('mousedown', onCloseOverlay);
     }
+    return () => document.removeEventListener('mousedown', onCloseOverlay);
   }, [isOpen]);
   // Функция-отработчик сохранения стейта
   function handleDeleteClick(e) {

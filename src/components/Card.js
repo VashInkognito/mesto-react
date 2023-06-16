@@ -39,7 +39,7 @@ function Card({
         className={cardDeleteButtonClassName}
         type="button"
         onClick={handleDeleteCardClick}
-      ></button>
+      />
       <img
         className="element__image"
         src={link}
@@ -53,7 +53,7 @@ function Card({
             className={cardLikeButtonClassName}
             type="button"
             onClick={handleLikeClick}
-          ></button>
+          />
           <span className="element__like-counter">{likes}</span>
         </div>
       </article>
